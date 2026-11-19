@@ -1,0 +1,15 @@
+import { ethers } from "ethers";
+import { CONFIG } from "./frontend/config.js";
+const provider = new ethers.JsonRpcProvider("https://bsc-dataseed2.bnbchain.org");
+const token = new ethers.Contract(CONFIG.contracts.ShiftToken.address, CONFIG.contracts.ShiftToken.abi, provider);
+const worker = new ethers.Contract(CONFIG.contracts.WorkerNFT.address, CONFIG.contracts.WorkerNFT.abi, provider);
+const mine = new ethers.Contract(CONFIG.contracts.ShiftMine.address, CONFIG.contracts.ShiftMine.abi, provider);
+const agentId = new ethers.Contract(CONFIG.agentId, CONFIG.agentIdAbi, provider);
+const DARWINZ = "0xaD8b6cd6085B35c43635487df9141294881Df50f";
+console.log("SHIFT name/symbol/supply:", await token.name(), await token.symbol(), ethers.formatEther(await token.totalSupply()));
+console.log("darwinz SHIFT balance:", ethers.formatEther(await token.balanceOf(DARWINZ)));
+console.log("Worker name/symbol/nextTokenId:", await worker.name(), await worker.symbol(), (await worker.nextTokenId()).toString());
+console.log("darwinz Agent ID balance:", (await agentId.balanceOf(DARWINZ)).toString());
+console.log("ShiftMine worker/shift/agentId:", await mine.worker(), await mine.shift(), await mine.agentId());
+console.log("ShiftMine SHIFT reserve:", ethers.formatEther(await token.balanceOf(CONFIG.contracts.ShiftMine.address)));
+console.log("BASE_RATE_PER_DAY:", ethers.formatEther(await mine.BASE_RATE_PER_DAY()), "SHIFT/day");

@@ -1,0 +1,5 @@
+node_modules/
+submission-brief.md
+out/
+*.log
+.DS_Store
